@@ -13,7 +13,7 @@
 
 ### 1. Intelligent Medical Report & Prescription Parsing (Multi-Modal OCR)
 *   **The Workflow:** Engineered an automated data ingestion pipeline that takes raw images/PDFs of un-structured lab reports and doctor prescriptions.
-*   **The Engine:** Utilized **Gemini Vision API** for high-fidelity multi-modal OCR, specifically optimized through contextual prompt scaffolding to accurately extract complex clinical terminologies, handwritten dosages, and lab reference ranges.
+*   **The Engine:** Utilized **Engine_1** for high-fidelity multi-modal OCR, specifically optimized through contextual prompt scaffolding to accurately extract complex clinical terminologies, handwritten dosages, and lab reference ranges.
 *   **Post-Processing:** Built a Node.js text-cleansing engine to sanitize raw OCR data, stripping noise and structural metadata before downstream analysis.
 
 ### 2. Automated Medication Reminder Engine
