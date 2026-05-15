@@ -68,8 +68,6 @@ To successfully shift this platform from a prototype into a production-ready sys
 
 ## 🎯 System Architecture Flowchart
 
-## 🎯 System Architecture Flowchart
-
 ```mermaid
 graph TD
     %% Styling
@@ -82,8 +80,8 @@ graph TD
     User[User Mobile/Web App]:::client
     User -->|Upload Report / Prescription / Query| Gateway[Node.js API Gateway / Backend]:::gateway
 
-    Gateway -->├─► REST[REST Pipeline]:::pipeline
-    Gateway -->└─► WS[WebSocket Room]:::pipeline
+    Gateway --> REST[REST Pipeline]:::pipeline
+    Gateway --> WS[WebSocket Room]:::pipeline
 
     REST -->|RBAC & Consent Check| Engine1[ENGINE-1: Multi-modal Extraction]:::engine
     WS -->|Real-time State Sync| Copilot[Micro-Agentic Copilot: 4-System Configs]:::engine
@@ -94,7 +92,6 @@ graph TD
     Engine2 --> Output[Structured JSON Output]:::output
     Output -->|Trigger| Reminders(Medicine Notification Queues):::client
     Output -->|Sync| DB(DB Analytics & Feature Search):::client
-
 
 ## 👨‍💻 Role & Key Contributions
 As the **Core AI Architect and Lead Full-Stack Engineer**, I was responsible for the project from its **first functional prototype to its production deployment**. My responsibilities included:
