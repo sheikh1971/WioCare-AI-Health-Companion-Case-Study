@@ -68,22 +68,40 @@ To successfully shift this platform from a prototype into a production-ready sys
 
 ## 🎯 System Architecture Flowchart
 
+
 ```mermaid
 graph TD
-    User[User Mobile/Web App] -->|Upload Data| Gateway[Node.js API Gateway / Backend]
+    %% --- CLIENT & INGRESS LAYER ---
+    UserClient[User Mobile/Web Client Node] -->|HTTPS Requests / Multi-part Binary| ALB[Application Load Balancer]
+    UserClient <-->|Bi-directional Stateful Sync| WSSPool[WebSocket Connection Pool Layer]
 
-    Gateway --> REST[REST Pipeline]
-    Gateway --> WS[WebSocket Room]
+    %% --- SECURITY & ROUTING LAYER ---
+    ALB -->|TLS Termination & Auth Route| APIGateway[Node.js Enterprise API Gateway]
+    APIGateway -->|RBAC Validation & Cryptographic Consent Check| AuthGuard{Security Gatekeeper}
 
-    REST -->|RBAC & Consent Check| Engine1[ENGINE-1: Multi-modal Extraction]
-    WS -->|Real-time State Sync| Copilot[Micro-Agentic Copilot]
+    %% --- REST PROCESSING & INGESTION PIPELINE ---
+    AuthGuard -->|Authorized Ingestion Payload| RestWorker[Asynchronous REST Pipeline Worker]
+    RestWorker -->|Sanitized Raw Buffer| TokenComp[Token Tokenization & Lexical Cleaner]
 
-    Engine1 -->|Cleaned Tokens| Engine2[ENGINE-2: Reasoning & Synthesis]
-    Copilot --> Engine2
+    %% --- AI/ML ENGINE CORE ORCHESTRATION ---
+    TokenComp -->|Compressed Context Embeddings| Engine1[ENGINE-1: Multi-modal Vision Extraction Engine]
+    
+    WSSPool <-->|Instant Access Token Verification| Copilot[Micro-Agentic Physician Copilot: Quad-System Configs]
+    
+    Engine1 -->|Cleaned Ingestion Context Tokens| Engine2[ENGINE-2: Deterministic Reasoning & Synthesis Engine]
+    Copilot -->|Dynamic Behavioral Persona Routing| Engine2
 
-    Engine2 --> Output[Structured JSON Output]
-    Output --> Reminders(Medicine Notification Queues)
-    Output --> DB(DB Analytics & Feature Search)
+    %% --- ASYNCHRONOUS COMPUTE & WORKER THREADS ---
+    Engine2 -->|High-Compute Unstructured Output| WorkerPool[Background Worker Thread Pool]
+    
+    %% --- PERSISTENCE & DOWNSTREAM SYSTEM MATRIX ---
+    WorkerPool -->|ISO-Standardized JSON Schema| DataRouter{Data Routing Matrix}
+    
+    DataRouter -->|Dynamic Notification Schedules| CronQueue[Asynchronous Cron & Message Queues]
+    DataRouter -->|Relational Biomarker Primitives| SQLDB[(Relational DB / Time-Series Markers)]
+    DataRouter -->|Chronological Longitudinal Corpora| NoSQL[(NoSQL Layer / Document Store)]
+
+    CronQueue -->|Push Event Dispatches| UserClient
 ```
 ---
 ## 👨‍💻 Role & Key Contributions
