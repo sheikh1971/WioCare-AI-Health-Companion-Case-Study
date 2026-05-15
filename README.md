@@ -70,29 +70,22 @@ To successfully shift this platform from a prototype into a production-ready sys
 
 ```mermaid
 graph TD
-    %% Styling
-    classDef client fill:#e1f5fe,stroke:#03a9f4,stroke-width:2px,color:#000;
-    classDef gateway fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,color:#000;
-    classDef pipeline fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#000;
-    classDef engine fill:#e8f5e9,stroke:#4caf50,stroke-width:2px,color:#000;
-    classDef output fill:#ffebee,stroke:#f44336,stroke-width:2px,color:#000;
+    User[User Mobile/Web App] -->|Upload Data| Gateway[Node.js API Gateway / Backend]
 
-    User[User Mobile/Web App]:::client
-    User -->|Upload Report / Prescription / Query| Gateway[Node.js API Gateway / Backend]:::gateway
+    Gateway --> REST[REST Pipeline]
+    Gateway --> WS[WebSocket Room]
 
-    Gateway --> REST[REST Pipeline]:::pipeline
-    Gateway --> WS[WebSocket Room]:::pipeline
+    REST -->|RBAC & Consent Check| Engine1[ENGINE-1: Multi-modal Extraction]
+    WS -->|Real-time State Sync| Copilot[Micro-Agentic Copilot]
 
-    REST -->|RBAC & Consent Check| Engine1[ENGINE-1: Multi-modal Extraction]:::engine
-    WS -->|Real-time State Sync| Copilot[Micro-Agentic Copilot: 4-System Configs]:::engine
-
-    Engine1 -->|Cleaned Context Tokens| Engine2[ENGINE-2: Reasoning & Synthesis]:::engine
+    Engine1 -->|Cleaned Tokens| Engine2[ENGINE-2: Reasoning & Synthesis]
     Copilot --> Engine2
 
-    Engine2 --> Output[Structured JSON Output]:::output
-    Output -->|Trigger| Reminders(Medicine Notification Queues):::client
-    Output -->|Sync| DB(DB Analytics & Feature Search):::client
-
+    Engine2 --> Output[Structured JSON Output]
+    Output --> Reminders(Medicine Notification Queues)
+    Output --> DB(DB Analytics & Feature Search)
+```
+---
 ## 👨‍💻 Role & Key Contributions
 As the **Core AI Architect and Lead Full-Stack Engineer**, I was responsible for the project from its **first functional prototype to its production deployment**. My responsibilities included:
 *   Designing and implementing the Multi-LLM integration workflows and prompt safety rails.
